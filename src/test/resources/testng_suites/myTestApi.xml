@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite verbose="1" name="Carina Demo Tests - API Sample">
+
+    <parameter name="suiteOwner" value="Gleb Chekmezov"/>
+    <parameter name="jenkinsJobName" value="API-Demo-Test"/>
+    <parameter name="jenkinsJobType" value="api"/>
+
+    <parameter name="jenkinsJobExecutionMode" value="continue"/>
+
+    <test name="User API tests">
+        <classes>
+            <class name="com.qaprosoft.carina.demo.APISampleTest" />
+        </classes>
+    </test>
+
+</suite>

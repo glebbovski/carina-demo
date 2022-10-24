@@ -1,0 +1,44 @@
+{
+  "coord": {
+    "lon": 429.75,
+    "lat": 658.0
+  },
+  "weather": [
+    {
+      "id": 990,
+      "main": "ABCDEFGH",
+      "description": "ABCDEFGHIJKLMNOP",
+      "icon": "ABCDEFGHIJKLMNOPQ"
+    }
+  ],
+  "base": "ABCDEFGHIJKLMNOPQRSTU",
+  "main": {
+    "temp": 915.0,
+    "feels_like": -60.5,
+    "temp_min": 898.75,
+    "temp_max": 645.75,
+    "pressure": 397,
+    "humidity": 819
+  },
+  "visibility": 957,
+  "wind": {
+    "speed": 85.5,
+    "deg": 226,
+    "gust": 373.25
+  },
+  "clouds": {
+    "all": 678
+  },
+  "dt": 352,
+  "sys": {
+    "type": 421,
+    "id": 171,
+    "country": "ABCD",
+    "sunrise": 945,
+    "sunset": 578
+  },
+  "timezone": 824,
+  "id": 690,
+  "name": "ABCDEFGHIJKLMNOPQRSTUVWX",
+  "cod": 868
+}
