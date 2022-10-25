@@ -19,7 +19,10 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -44,6 +47,16 @@ import com.qaprosoft.carina.demo.gui.pages.NewsPage;
  * @author qpsdemo
  */
 public class WebSampleTest implements IAbstractTest {
+    {
+        System.setProperty("webdriver.chrome.driver", "D:\\Solvd\\carina-demo\\src\\main\\resources\\chromedriver.exe");
+    }
+    public WebDriver webDriver = new ChromeDriver();
+
+    @BeforeTest
+    public WebDriver getDriver() {
+        return webDriver;
+    }
+
     @Test()
     @MethodOwner(owner = "qpsdemo")
     @TestPriority(Priority.P3)
@@ -89,8 +102,8 @@ public class WebSampleTest implements IAbstractTest {
         List<ModelSpecs> specs = comparePage.compareModels("Samsung Galaxy J3", "Samsung Galaxy J5", "Samsung Galaxy J7 Pro");
         // Verify model announced dates
         SoftAssert softAssert = new SoftAssert();
-        softAssert.assertEquals(specs.get(0).readSpec(SpecType.ANNOUNCED), "2016, March 31");
-        softAssert.assertEquals(specs.get(1).readSpec(SpecType.ANNOUNCED), "2015, June 19");
+        softAssert.assertEquals(specs.get(0).readSpec(SpecType.ANNOUNCED), "2016, March 31. Released 2016, May 06");
+        softAssert.assertEquals(specs.get(1).readSpec(SpecType.ANNOUNCED), "2015, June 19. Released 2015, July 28");
         softAssert.assertEquals(specs.get(2).readSpec(SpecType.ANNOUNCED), "2017, June");
         softAssert.assertAll();
     }

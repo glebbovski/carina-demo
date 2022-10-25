@@ -18,8 +18,11 @@ package com.qaprosoft.carina.demo;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import com.qaprosoft.carina.core.foundation.IAbstractTest;
@@ -37,6 +40,16 @@ import com.qaprosoft.carina.demo.gui.pages.HomePage;
  * @author qpsdemo
  */
 public class WebSampleSingleDriver implements IAbstractTest {
+    {
+        System.setProperty("webdriver.chrome.driver", "D:\\Solvd\\carina-demo\\src\\main\\resources\\chromedriver.exe");
+    }
+    public WebDriver webDriver = new ChromeDriver();
+
+    @BeforeTest
+    public WebDriver getDriver() {
+        return webDriver;
+    }
+
     HomePage homePage = null;
     CompareModelsPage comparePage = null;
     List<ModelSpecs> specs = new ArrayList<>();
