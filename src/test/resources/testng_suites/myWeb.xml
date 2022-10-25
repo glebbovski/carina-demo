@@ -1,0 +1,11 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite verbose="1" name="Carina Demo Tests - Web Testing" parallel="methods">
+
+    <test name="GSM arena web tests">
+        <classes>
+            <class name="com.qaprosoft.carina.demo.WebTest" />
+        </classes>
+    </test>
+
+</suite>
