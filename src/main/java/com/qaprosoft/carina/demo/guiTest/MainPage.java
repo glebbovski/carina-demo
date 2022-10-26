@@ -16,6 +16,9 @@ public class MainPage extends AbstractPage {
     @FindBy(id = "inventory_container")
     private InventoryContainer inventoryContainer;
 
+    @FindBy(className = "bm-menu")
+    private MenuContainer menuContainer;
+
     public MainPage(WebDriver driver) {
         super(driver);
         setPageAbsoluteURL(mainPageUrl);
@@ -24,4 +27,13 @@ public class MainPage extends AbstractPage {
     public InventoryContainer getInventoryContainer() {
         return inventoryContainer;
     }
+    public MenuContainer getMenuContainer() {
+        return menuContainer;
+    }
+
+    public String getMainPageUrl() {
+        return mainPageUrl;
+    }
+
+
 }

@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 public class LoginPage extends AbstractPage {
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
+    private final String loginPageUrl = "https://www.saucedemo.com/";
+
     @FindBy(id = "login_button_container")
     private ButtonContainer buttonContainer;
 
@@ -46,6 +48,10 @@ public class LoginPage extends AbstractPage {
         List<String> tmp = Arrays.asList(acceptedUsernames.get(0).getText().split("\n")).stream()
                 .filter(x -> !x.contains(":")).collect(Collectors.toList());
         return tmp;
+    }
+
+    public String getLoginPageUrl() {
+        return loginPageUrl;
     }
 
 }

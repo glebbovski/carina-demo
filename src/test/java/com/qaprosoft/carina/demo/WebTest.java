@@ -139,6 +139,69 @@ public class WebTest implements IAbstractTest {
     @MethodOwner(owner = "gleb chekmezov")
     @TestLabel(name = "feature", value = {"web", "acceptance"})
     public void testLoginOpenReturnUnlogin() {
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.open();
+        Assert.assertTrue(loginPage.isPageOpened(), "Login page is not opened");
+
+        ButtonContainer buttonContainer = loginPage.getButtonContainer();
+        Assert.assertTrue(buttonContainer.isUIObjectPresent(2), "Button container wasn't found!");
+        buttonContainer.sendTextToUsername("standard_user");
+        Assert.assertTrue(loginPage.readAcceptedUsernames().contains(buttonContainer.readInputUsername()), "Wrong username was chosen");
+        buttonContainer.sendTextToPassword("secret_sauce");
+        Assert.assertEquals(loginPage.readAcceptedPassword(), buttonContainer.readInputPassword(), "Wrong password was chosen");
+
+        MainPage mainPage = buttonContainer.openMainPage();
+        Assert.assertTrue(mainPage.isPageOpened(), "Main page is not opened");
+
+        InventoryContainer inventoryContainer = mainPage.getInventoryContainer();
+        Assert.assertTrue(inventoryContainer.isUIObjectPresent(2), "Inventory container wasn't found!");
+
+        String fname = "Sauce Labs Fleece Jacket";
+        Assert.assertTrue(inventoryContainer.readItemNames().contains(fname), "Wrong name");
+
+        //Assert.assertEquals(0, 1, Arrays.toString(inventoryContainer.readIntegerFromIds().toArray()));
+
+        List<String> mainPageItemsNames = inventoryContainer.readItemNames();
+        List<String> mainPageItemsPrices = inventoryContainer.readItemsPrices();
+
+        int idxForCartItemMainPage = inventoryContainer.readItemNames().indexOf(fname);
+        int perexidIndex = inventoryContainer.readIntegerFromIds().get(idxForCartItemMainPage);
+
+        ItemPage itemPage = inventoryContainer.clickOnProduct(fname, perexidIndex);
+        Assert.assertTrue(itemPage.isPageOpened(), "Item page is not opened");
+
+        InventoryItemContainer inventoryItemContainer = itemPage.getContainer();
+        Assert.assertTrue(inventoryItemContainer.isUIObjectPresent(2), "Item container wasn't found!");
+
+        String itemName = inventoryItemContainer.readItemName();
+        String itemPrice = inventoryItemContainer.readItemPrice();
+
+        Assert.assertEquals(itemName, fname, "Something wrong with name");
+        Assert.assertEquals(itemPrice, mainPageItemsPrices.get(idxForCartItemMainPage), "Something wrong with price");
+
+        // 2 - пункт
+
+        mainPage = inventoryItemContainer.clickToBack(mainPage);
+        Assert.assertFalse(itemPage.isPageOpened(2), "Your item page is still opened");
+        Assert.assertTrue(mainPage.isPageOpened(2), "Main page is not opened!");
+
+        MenuContainer menuContainer = mainPage.getMenuContainer();
+        Assert.assertTrue(menuContainer.isUIObjectPresent(2), "Menu container is not present");
+        loginPage = menuContainer.clickToLogout(loginPage);
+        Assert.assertFalse(mainPage.isPageOpened(2), "Main page is still opened");
+        Assert.assertTrue(loginPage.isPageOpened(2), "Login page is not opened");
+
+
+
+
+
+
+
+
+
+
+        //1 - пункт
+
 
 
     }

@@ -26,6 +26,9 @@ public class InventoryContainer extends AbstractUIObject {
     @FindBy(xpath = "//div[@class=\"pricebar\"]//div[@class=\"inventory_item_price\"]")
     private List<ExtendedWebElement> itemPrices;
 
+    @FindBy(xpath = "//div[@class='inventory_item']//div[@class='inventory_item_label']//a")
+    private List<ExtendedWebElement> ids;
+
     @FindBy(xpath = "//div[@id=\"shopping_cart_container\"]//span[@class=\"shopping_cart_badge\"]")
     private List<ExtendedWebElement> elementsInCart;
 
@@ -74,6 +77,26 @@ public class InventoryContainer extends AbstractUIObject {
         return res;
     }
 
+    public List<String> readIds() {
+        List<String> res = new ArrayList<>();
+        for (int i = 0; i < ids.size(); i++) {
+            res.add(ids.get(i).getAttribute("id"));
+        }
+        return res;
+    }
+
+    public List<Integer> readIntegerFromIds() {
+        List<String> tmp = readIds();
+        List<Integer> result = new ArrayList<>();
+        for(int i = 0; i < tmp.size(); i++) {
+            String[] p = tmp.get(i).split("_");
+            result.add(Integer.parseInt(p[1]));
+        }
+        return result;
+    }
+
+
+
     public String readElementsInCart() {
         return elementsInCart.get(0).getText();
     }
@@ -88,6 +111,17 @@ public class InventoryContainer extends AbstractUIObject {
             //System.out.println("-*-*-*-*-*-*-**--*-*-*-*-*-* " + itemAddCartButtons.get(idx).getText());
             itemAddCartButtons.get(idx).click();
             return idx;
+        }
+    }
+
+    public ItemPage clickOnProduct(String name, int x) {
+        int idx = readItemNames().indexOf(name);
+        if (idx < 0) {
+            throw new RuntimeException();
+        } else {
+            assertElementPresent(itemNames.get(idx));
+            itemNames.get(idx).click(3);
+            return new ItemPage(driver, x);
         }
     }
 

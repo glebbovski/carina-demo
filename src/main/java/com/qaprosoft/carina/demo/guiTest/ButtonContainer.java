@@ -21,9 +21,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractUIObject;
-import com.qaprosoft.carina.demo.gui.pages.CompareModelsPage;
-import com.qaprosoft.carina.demo.gui.pages.HomePage;
-import com.qaprosoft.carina.demo.gui.pages.NewsPage;
 
 public class ButtonContainer extends AbstractUIObject {
 
@@ -57,7 +54,7 @@ public class ButtonContainer extends AbstractUIObject {
     }
 
     public MainPage openMainPage(){
-        loginLink.click();
+        loginLink.click(3);
         return new MainPage(driver);
     }
 
