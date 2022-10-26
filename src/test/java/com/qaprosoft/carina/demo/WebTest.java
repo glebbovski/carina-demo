@@ -9,6 +9,7 @@ import com.qaprosoft.carina.demo.guiTest.*;
 import com.zebrunner.agent.core.annotation.TestLabel;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.devtools.v85.dom.model.ShadowRootType;
 import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -191,20 +192,69 @@ public class WebTest implements IAbstractTest {
         Assert.assertFalse(mainPage.isPageOpened(2), "Main page is still opened");
         Assert.assertTrue(loginPage.isPageOpened(2), "Login page is not opened");
 
+    }
 
 
+    @Test()
+    @MethodOwner(owner = "gleb chekmezov")
+    @TestLabel(name = "feature", value = {"web", "acceptance"})
+    public void testLoginAndSort() {
+        LoginPage loginPage = new LoginPage(getDriver());
+        loginPage.open();
+        Assert.assertTrue(loginPage.isPageOpened(), "Login page is not opened");
 
+        ButtonContainer buttonContainer = loginPage.getButtonContainer();
+        Assert.assertTrue(buttonContainer.isUIObjectPresent(2), "Button container wasn't found!");
+        buttonContainer.sendTextToUsername("standard_user");
+        Assert.assertTrue(loginPage.readAcceptedUsernames().contains(buttonContainer.readInputUsername()), "Wrong username was chosen");
+        buttonContainer.sendTextToPassword("secret_sauce");
+        Assert.assertEquals(loginPage.readAcceptedPassword(), buttonContainer.readInputPassword(), "Wrong password was chosen");
 
+        MainPage mainPage = buttonContainer.openMainPage();
+        Assert.assertTrue(mainPage.isPageOpened(), "Main page is not opened");
 
+        InventoryContainer inventoryContainer = mainPage.getInventoryContainer();
+        Assert.assertTrue(inventoryContainer.isUIObjectPresent(2), "Inventory container wasn't found!");
 
+        SortContainer sortContainer = mainPage.getSortContainer();
+        Assert.assertTrue(sortContainer.isUIObjectPresent(2), "Sort container wasn't found!");
 
+        Assert.assertEquals(sortContainer.readActiveOption(), "name (a to z)".toUpperCase(Locale.ROOT), sortContainer.readActiveOption());
 
+        List<String> sorted = new ArrayList<>(inventoryContainer.readItemNames());
+        Collections.sort(sorted);
+        Assert.assertEquals(sorted, inventoryContainer.readItemNames(), "Wrong word order");
 
-        //1 - пункт
+        sortContainer.clickOnSortButtonAndGetZtoA();
+        sorted = new ArrayList<>(inventoryContainer.readItemNames());
+        Collections.sort(sorted);
+        Collections.reverse(sorted);
+        Assert.assertEquals(sorted, inventoryContainer.readItemNames(), "Wrong word order");
 
+        sortContainer.clickOnSortButtonAndGetLowToHigh();
+        List<String> tmp = new ArrayList<>(inventoryContainer.readItemsPrices());
+        List<Double> tmpDouble = new ArrayList<>();
+        for (String s : tmp) {
+            tmpDouble.add(Double.parseDouble(s.substring(1)));
+        }
+        List<Double> sortedDouble = new ArrayList<>(tmpDouble);
+        Collections.sort(sortedDouble);
+        Assert.assertEquals(sortedDouble, tmpDouble, "Wrong price order");
+
+        sortContainer.clickSortButtonAndGetHighToLow();
+        tmp = new ArrayList<>(inventoryContainer.readItemsPrices());
+        tmpDouble = new ArrayList<>();
+        for (String s : tmp) {
+            tmpDouble.add(Double.parseDouble(s.substring(1)));
+        }
+        sortedDouble = new ArrayList<>(tmpDouble);
+        Collections.sort(sortedDouble);
+        Collections.reverse(sortedDouble);
+        Assert.assertEquals(sortedDouble, tmpDouble, "Wrong price order");
 
 
     }
+
 
 
 }

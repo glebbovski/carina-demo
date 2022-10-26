@@ -19,6 +19,9 @@ public class MainPage extends AbstractPage {
     @FindBy(className = "bm-menu")
     private MenuContainer menuContainer;
 
+    @FindBy(xpath = "//span[@class='select_container']")
+    private SortContainer sortContainer;
+
     public MainPage(WebDriver driver) {
         super(driver);
         setPageAbsoluteURL(mainPageUrl);
@@ -29,6 +32,9 @@ public class MainPage extends AbstractPage {
     }
     public MenuContainer getMenuContainer() {
         return menuContainer;
+    }
+    public SortContainer getSortContainer() {
+        return sortContainer;
     }
 
     public String getMainPageUrl() {

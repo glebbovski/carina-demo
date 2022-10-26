@@ -104,11 +104,9 @@ public class InventoryContainer extends AbstractUIObject {
     public int addCartButtonClick(String name) {
         int idx = readItemNames().indexOf(name);
         if (idx < 0) {
-            //System.out.println(Arrays.toString(itemNames.toArray()));
             throw new RuntimeException();
         } else {
             assertElementPresent(itemAddCartButtons.get(idx));
-            //System.out.println("-*-*-*-*-*-*-**--*-*-*-*-*-* " + itemAddCartButtons.get(idx).getText());
             itemAddCartButtons.get(idx).click();
             return idx;
         }
