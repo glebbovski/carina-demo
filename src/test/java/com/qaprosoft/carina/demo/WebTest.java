@@ -73,30 +73,75 @@ public class WebTest implements IAbstractTest {
         LoginPage loginPage = new LoginPage(getDriver());
         loginPage.open();
         Assert.assertTrue(loginPage.isPageOpened(), "Login page is not opened");
+
         ButtonContainer buttonContainer = loginPage.getButtonContainer();
         Assert.assertTrue(buttonContainer.isUIObjectPresent(2), "Button container wasn't found!");
-        buttonContainer.sendTextToUsername("problem_user");
+        buttonContainer.sendTextToUsername("standard_user");
         Assert.assertTrue(loginPage.readAcceptedUsernames().contains(buttonContainer.readInputUsername()), "Wrong username was chosen");
         buttonContainer.sendTextToPassword("secret_sauce");
         Assert.assertEquals(loginPage.readAcceptedPassword(), buttonContainer.readInputPassword(), "Wrong password was chosen");
+
         MainPage mainPage = buttonContainer.openMainPage();
         Assert.assertTrue(mainPage.isPageOpened(), "Main page is not opened");
+
         InventoryContainer inventoryContainer = mainPage.getInventoryContainer();
         Assert.assertTrue(inventoryContainer.isUIObjectPresent(2), "Inventory container wasn't found!");
-        String name = "Sauce Labs Onesie";
-        String[] tmp = Arrays.stream(name.split(" "))
-                .map(x -> x.toLowerCase(Locale.ROOT))
-                .collect(Collectors.toList())
-                .toArray(String[]::new);
-        String nameWithDelimeter = String.join("-", tmp);
-        Assert.assertTrue(inventoryContainer.readItemNames().contains(name), "Wrong name");
+
+        String fname = "Sauce Labs Onesie";
+//        String[] tmp = Arrays.stream(name.split(" "))
+//                .map(x -> x.toLowerCase(Locale.ROOT))
+//                .collect(Collectors.toList())
+//                .toArray(String[]::new);
+//        String nameWithDelimeter = String.join("-", tmp);
+        Assert.assertTrue(inventoryContainer.readItemNames().contains(fname), "Wrong name");
+        //String sname = "Sauce Labs Bolt T-Shirt";
+        //Assert.assertTrue(inventoryContainer.readItemNames().contains(sname), "Wrong name");
+        String tname = "Biboba";
+        Assert.assertFalse(inventoryContainer.readItemNames().contains(tname), "Check your names");
+
         List<ExtendedWebElement> cartButtons = inventoryContainer.getItemAddCartButtons();
         Assert.assertEquals(cartButtons.size(), 6, "Wrong size");
-        inventoryContainer.addCartButtonClick(name);
 
+        List <ExtendedWebElement> cartList = inventoryContainer.getElementsInCart();
+        Assert.assertEquals(cartList.size(), 0, "Something wrong with cart");
 
+        int idxForCartItemMainPage = inventoryContainer.addCartButtonClick(fname);
+        Assert.assertEquals(inventoryContainer.readElementsInCart(), "1", "Something wrong with cart");
+
+        List<String> mainPageItemsNames = inventoryContainer.readItemNames();
+        List<String> mainPageItemsPrices = inventoryContainer.readItemsPrices();
+
+        // int secondIdx = inventoryContainer.addCartButtonClick(sname);
+        // Assert.assertEquals(inventoryContainer.readElementsInCart(), "2", "Something wrong with cart");
+        CartPage cartPage = inventoryContainer.openCartPage();
+        Assert.assertTrue(cartPage.isPageOpened(), "Cart page is not opened!");
+        CartContainer cartContainer = cartPage.getCartContainer();
+        Assert.assertTrue(cartContainer.isUIObjectPresent(2), "Cart container was not found!");
+
+        List<String> cartPageItemsPrices = cartContainer.readCartItemsPrices();
+        List<String> cartPageItemsNames = cartContainer.readCartItemsNames();
+
+        Assert.assertEquals(cartPageItemsNames.size(), 1, "Something went wrong with names");
+        Assert.assertEquals(cartPageItemsPrices.size(), 1, "Something went wrong with prices");
+
+        Assert.assertTrue(cartPageItemsNames.contains(fname), "Something wrong with name");
+        Assert.assertTrue(mainPageItemsNames.contains(fname), "Something wrong with name");
+
+        int mainIdx = mainPageItemsNames.indexOf(fname);
+        int cartIdx = cartPageItemsNames.indexOf(fname);
+
+        Assert.assertEquals(mainPageItemsPrices.get(mainIdx), cartPageItemsPrices.get(cartIdx),
+                "Prices are not equals");
+
+    }
+
+    @Test()
+    @MethodOwner(owner = "gleb chekmezov")
+    @TestLabel(name = "feature", value = {"web", "acceptance"})
+    public void testLoginOpenReturnUnlogin() {
 
 
     }
+
 
 }

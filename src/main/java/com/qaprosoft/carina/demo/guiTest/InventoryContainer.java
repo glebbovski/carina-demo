@@ -23,11 +23,22 @@ public class InventoryContainer extends AbstractUIObject {
     @FindBy(xpath = "//div[@class=\"inventory_item\"]//button")
     private List<ExtendedWebElement> itemAddCartButtons;
 
-//    @FindBy(xpath = "//div[@class='inventory_item_name']")
-//    private List<ExtendedWebElement> itemNames;
+    @FindBy(xpath = "//div[@class=\"pricebar\"]//div[@class=\"inventory_item_price\"]")
+    private List<ExtendedWebElement> itemPrices;
+
+    @FindBy(xpath = "//div[@id=\"shopping_cart_container\"]//span[@class=\"shopping_cart_badge\"]")
+    private List<ExtendedWebElement> elementsInCart;
+
+    @FindBy(xpath = "//a[@class=\"shopping_cart_link\"]")
+    private ExtendedWebElement shoppingCartLink;
 
     public InventoryContainer(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
+    }
+
+    public CartPage openCartPage() {
+        shoppingCartLink.click();
+        return new CartPage(driver);
     }
 
     public List<String> readItems() {
@@ -55,13 +66,28 @@ public class InventoryContainer extends AbstractUIObject {
         return tmp;
     }
 
-    public void addCartButtonClick(String name) {
+    public List<String> readItemsPrices() {
+        List<String> res = new ArrayList<>();
+        for (int i = 0; i < itemPrices.size(); i++) {
+            res.add(itemPrices.get(i).getText());
+        }
+        return res;
+    }
+
+    public String readElementsInCart() {
+        return elementsInCart.get(0).getText();
+    }
+
+    public int addCartButtonClick(String name) {
         int idx = readItemNames().indexOf(name);
         if (idx < 0) {
-            System.out.println(Arrays.toString(itemNames.toArray()));
+            //System.out.println(Arrays.toString(itemNames.toArray()));
             throw new RuntimeException();
         } else {
+            assertElementPresent(itemAddCartButtons.get(idx));
+            //System.out.println("-*-*-*-*-*-*-**--*-*-*-*-*-* " + itemAddCartButtons.get(idx).getText());
             itemAddCartButtons.get(idx).click();
+            return idx;
         }
     }
 
@@ -75,5 +101,9 @@ public class InventoryContainer extends AbstractUIObject {
 
     public List<ExtendedWebElement> getItemAddCartButtons() {
         return itemAddCartButtons;
+    }
+
+    public List<ExtendedWebElement> getElementsInCart() {
+        return elementsInCart;
     }
 }
