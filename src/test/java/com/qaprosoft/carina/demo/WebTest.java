@@ -14,12 +14,16 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class WebTest implements IAbstractTest {
+
     {
-        System.setProperty("webdriver.chrome.driver", "D:\\Solvd\\carina-demo\\src\\main\\resources\\chromedriver.exe");
+        Path path = Paths.get("chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", path.toAbsolutePath().toString());
     }
     public WebDriver webDriver = new ChromeDriver();
 
