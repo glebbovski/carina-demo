@@ -15,7 +15,5 @@ import com.qaprosoft.carina.core.foundation.utils.Configuration;
 public class GetCatMethod extends AbstractApiMethodV2 {
 
     public GetCatMethod() {
-        replaceUrlPlaceholder("https://catfact.ninja/fact",
-                Configuration.getEnvArg("api_url"));
     }
 }
