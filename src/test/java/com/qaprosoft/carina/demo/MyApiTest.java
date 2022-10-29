@@ -27,7 +27,7 @@ public class MyApiTest implements IAbstractTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    @Test(description = "get info about wheather")
+    @Test(description = "get info about weather")
     @MethodOwner(owner = "chekmezov gleb")
     public void testGetWeather() {
         GetWeatherMethod getWeatherMethod = new GetWeatherMethod();
