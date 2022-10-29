@@ -40,15 +40,15 @@ import com.qaprosoft.carina.demo.gui.pages.HomePage;
  * @author qpsdemo
  */
 public class WebSampleSingleDriver implements IAbstractTest {
-    {
-        System.setProperty("webdriver.chrome.driver", "D:\\Solvd\\carina-demo\\src\\main\\resources\\chromedriver.exe");
-    }
-    public WebDriver webDriver = new ChromeDriver();
-
-    @BeforeTest
-    public WebDriver getDriver() {
-        return webDriver;
-    }
+//    {
+//        System.setProperty("webdriver.chrome.driver", "D:\\Solvd\\carina-demo\\src\\main\\resources\\chromedriver.exe");
+//    }
+//    public WebDriver webDriver = new ChromeDriver();
+//
+//    @BeforeTest
+//    public WebDriver getDriver() {
+//        return webDriver;
+//    }
 
     HomePage homePage = null;
     CompareModelsPage comparePage = null;

@@ -10,48 +10,61 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.invoke.MethodHandles;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class LoginPage extends AbstractPage {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private final String loginPageUrl = "https://www.saucedemo.com/";
 
-    @FindBy(id = "login_button_container")
-    private ButtonContainer buttonContainer;
+    @FindBy(xpath = "//div[@class='form_group']//input[@placeholder='Username']")
+    private ExtendedWebElement inputUsername;
 
-    @FindBy(xpath = "//div[@id=\"login_credentials\"]")
-    private List<ExtendedWebElement> acceptedUsernames;
+    @FindBy(xpath = "//div[@class='form_group']//input[@placeholder='Password']")
+    private ExtendedWebElement inputPassword;
 
-    @FindBy(xpath = "//div[@class=\"login_password\"]")
-    private ExtendedWebElement acceptedPassword;
+    @FindBy(xpath = "//input[@type=\"submit\"]")
+    private ExtendedWebElement loginLink;
+
+    @FindBy(xpath = "//div[@class='error-message-container error']//button")
+    private ExtendedWebElement errorButton;
+
+    @FindBy(xpath = "//div[@class='error-message-container error']")
+    private ExtendedWebElement errorMessage;
 
     public LoginPage(WebDriver driver) {
         super(driver);
         setPageAbsoluteURL(R.CONFIG.get(Configuration.Parameter.URL.getKey()));
     }
 
-    public ButtonContainer getButtonContainer() {
-        return buttonContainer;
+    public boolean isErrorMessagePresent() {
+        return errorMessage.isElementPresent();
     }
 
-    public String readAcceptedPassword() {
-        String[] tmp = acceptedPassword.getText().split("\n");
-        return tmp[1];
-    }
-
-    public List<String> readAcceptedUsernames() {
-        List<String> tmp = Arrays.asList(acceptedUsernames.get(0).getText().split("\n")).stream()
-                .filter(x -> !x.contains(":")).collect(Collectors.toList());
-        return tmp;
+    public String readErrorMessage() {
+        return errorMessage.getText();
     }
 
     public String getLoginPageUrl() {
         return loginPageUrl;
+    }
+
+    public void sendTextToUsername(String text) {
+        inputUsername.type(text);
+
+    }
+
+    public void sendTextToPassword(String text) {
+        inputPassword.type(text);
+    }
+
+    public void loginLinkClick() {
+        loginLink.click();
+    }
+
+    public MainPage openMainPage(){
+        loginLink.click(3);
+        return new MainPage(driver);
     }
 
 }
