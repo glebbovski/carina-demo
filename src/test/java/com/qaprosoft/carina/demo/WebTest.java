@@ -39,7 +39,7 @@ public class WebTest implements IAbstractTest {
         Assert.assertTrue(loginPage.isPageOpened(), "Login page is not opened");
         loginPage.sendTextToUsername("");
         loginPage.sendTextToPassword("");
-        loginPage.loginLinkClick();
+        loginPage.loginButtonClick();
         Assert.assertTrue(loginPage.isErrorMessagePresent(), "Something wrong with error message");
         Assert.assertEquals(loginPage.readErrorMessage(), "Epic sadface: Username is required",
                 "Wrong message");
@@ -54,7 +54,7 @@ public class WebTest implements IAbstractTest {
         Assert.assertTrue(loginPage.isPageOpened(), "Login page is not opened");
         loginPage.sendTextToUsername("standard_user");
         loginPage.sendTextToPassword("prikol");
-        loginPage.loginLinkClick();
+        loginPage.loginButtonClick();
         Assert.assertTrue(loginPage.isErrorMessagePresent(), "Something wrong with error message");
         Assert.assertEquals(loginPage.readErrorMessage(),
                 "Epic sadface: Username and password do not match any user in this service",

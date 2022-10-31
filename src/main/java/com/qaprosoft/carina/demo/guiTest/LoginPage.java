@@ -24,7 +24,7 @@ public class LoginPage extends AbstractPage {
     private ExtendedWebElement inputPassword;
 
     @FindBy(xpath = "//input[@type=\"submit\"]")
-    private ExtendedWebElement loginLink;
+    private ExtendedWebElement loginButton;
 
     @FindBy(xpath = "//div[@class='error-message-container error']//button")
     private ExtendedWebElement errorButton;
@@ -45,10 +45,6 @@ public class LoginPage extends AbstractPage {
         return errorMessage.getText();
     }
 
-    public String getLoginPageUrl() {
-        return loginPageUrl;
-    }
-
     public void sendTextToUsername(String text) {
         inputUsername.type(text);
 
@@ -58,12 +54,12 @@ public class LoginPage extends AbstractPage {
         inputPassword.type(text);
     }
 
-    public void loginLinkClick() {
-        loginLink.click();
+    public void loginButtonClick() {
+        loginButton.click();
     }
 
     public MainPage openMainPage(){
-        loginLink.click(3);
+        loginButton.click(3);
         return new MainPage(driver);
     }
 
