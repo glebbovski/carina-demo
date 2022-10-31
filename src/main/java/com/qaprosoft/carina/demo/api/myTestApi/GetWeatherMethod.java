@@ -15,8 +15,6 @@ import com.qaprosoft.carina.core.foundation.utils.Configuration;
 public class GetWeatherMethod extends AbstractApiMethodV2 {
 
     public GetWeatherMethod() {
-        replaceUrlPlaceholder("https://api.openweathermap.org/data/2.5/weather?q=Kyiv&appid=ddcd7c29b69a543c41d1c001edb3c319",
-                Configuration.getEnvArg("api_url"));
     }
 }
 

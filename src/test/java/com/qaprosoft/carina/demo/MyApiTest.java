@@ -9,8 +9,9 @@ import com.qaprosoft.carina.core.foundation.utils.tag.Priority;
 import com.qaprosoft.carina.core.foundation.utils.tag.TestPriority;
 import com.qaprosoft.carina.demo.api.DeleteUserMethod;
 import com.qaprosoft.carina.demo.api.GetUserMethods;
-import com.qaprosoft.carina.demo.api.PostUserMethod;
+import com.qaprosoft.carina.demo.api.myTestApi.PostUserMethod;
 import com.qaprosoft.carina.demo.api.myTestApi.GetCatMethod;
+import com.qaprosoft.carina.demo.api.myTestApi.GetUserMethod;
 import com.qaprosoft.carina.demo.api.myTestApi.GetWeatherMethod;
 import com.qaprosoft.carina.demo.api.myTestApi.PostMethod;
 import org.skyscreamer.jsonassert.JSONCompareMode;
@@ -26,7 +27,7 @@ public class MyApiTest implements IAbstractTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    @Test(description = "get info about wheather")
+    @Test(description = "get info about weather")
     @MethodOwner(owner = "chekmezov gleb")
     public void testGetWeather() {
         GetWeatherMethod getWeatherMethod = new GetWeatherMethod();
@@ -42,14 +43,32 @@ public class MyApiTest implements IAbstractTest {
         getCatMethod.validateResponseAgainstSchema("api/myTestApi/_getCat/rs.schema");
     }
 
+    @Test(description = "get info about user")
+    @MethodOwner(owner = "chekmezov gleb")
+    public void testGetUser() {
+        GetUserMethod getUserMethod = new GetUserMethod();
+        getUserMethod.callAPIExpectSuccess();
+        getUserMethod.validateResponseAgainstSchema("api/myTestApi/_getUser/rs.schema");
+    }
+
     @Test(description = "post info")
     @MethodOwner(owner = "chekmezov gleb")
     public void testPostMethod() {
         PostMethod postMethod = new PostMethod();
         postMethod.setProperties("api/myTestApi/post.properties");
-        postMethod.expectResponseStatus(HttpResponseStatusType.CREATED_201);
         postMethod.callAPI();
         postMethod.validateResponse();
     }
+
+    @Test(description = "post info about user")
+    @MethodOwner(owner = "chekmezov gleb")
+    public void testPostUserMethod() {
+        PostUserMethod postUserMethod = new PostUserMethod();
+        postUserMethod.setProperties("api/myTestApi/postUser.properties");
+        postUserMethod.callAPI();
+        postUserMethod.validateResponse();
+    }
+
+
 
 }
